@@ -1,18 +1,8 @@
-
-# Table of Contents
-
-1.  [ECAL - Extendable Clang AST based Linter.](#org02fa096)
-    1.  [Plugins](#orgad34be7)
-
-
-<a id="org02fa096"></a>
-
-# ECAL - Extendable Clang AST based Linter.
+# EXCAL - Extendable Clang AST based Linter.
 
 This is a simple project implementing a C/C++ linter based on the clang AST. The main porpoise is to create a tool which is easily extendable via plugins.
 
 
-<a id="orgad34be7"></a>
 
 ## Plugins
 
@@ -39,7 +29,9 @@ See the following example:
         pm.register(PLUGIN_NAME, customVisitor)
 ```
 
-Additionally the plugin needs to be registered in the plugins.json file.
+
+There are two ways to provide Plugins. The preferred one is to Create as a standalone python Package, an example will be linked here soon.
+The other way is to put the Plugin in the plugins folder and register it in the plugins.json file.
 
 ```
     {
@@ -47,5 +39,5 @@ Additionally the plugin needs to be registered in the plugins.json file.
     }
 ```
 
-All possible functions can be seen in src/visitor.py. To see which function may be needed for your use-cases run the ecal project using the -p flag. This will print an AST of the desired file.
+All possible functions can be seen in src/visitor.py. To see which function may be needed for your use-cases run the excal project using the -p flag. This will print an AST of the desired file.
 
