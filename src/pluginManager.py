@@ -44,6 +44,6 @@ class PluginManager():
             print(f"plugin {plugin_file} loading")
             plugin = import_module(plugin_file)
             plugin.register(self)
-        for entry_point in pkg_resources.iter_entry_points('ecal_plugins'):
+        for entry_point in pkg_resources.iter_entry_points('excal_plugins'):
             print(f"plugin {entry_point.name} loading")
             entry_point.load()(self)
