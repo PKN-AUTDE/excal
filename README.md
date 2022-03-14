@@ -30,7 +30,7 @@ See the following example:
 ```
 
 
-There are two ways to provide Plugins. The preferred one is to Create as a standalone python Package, an example will be linked here soon.
+There are two ways to provide Plugins. The preferred one is to Create as a standalone python Package. [See this example](https://github.com/PKN-AUTDE/excal-example-plugin)
 The other way is to put the Plugin in the plugins folder and register it in the plugins.json file.
 
 ```
