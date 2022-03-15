@@ -18,6 +18,8 @@ def readConfig(args):
 
     if not os.path.isdir(path):
         return args
+    if not path.endswith('/') and not path.endswith('\\'):
+        path += '/'
     if not os.path.exists(f"{path}setup.cfg"):
         return args
 
@@ -35,7 +37,7 @@ def readConfig(args):
             args.include.extend([l.strip() for l in cfg[key].split('\n')])
         if key == "exclude_files":
             args.exclude_files.extend(
-                [f'{args.files[0]}{line.strip()}'
+                [f'{path}{line.strip()}'
                  for line in cfg[key].split('\n') if line != ''])
     return args
 
