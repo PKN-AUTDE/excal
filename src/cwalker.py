@@ -1,6 +1,6 @@
 from pathlib import Path
-from typing import Dict, List
-from clang.cindex import Index as CIndex, Cursor
+from typing import List
+from clang.cindex import Index as CIndex, Cursor, TranslationUnit
 from astNode import AstNode
 
 
