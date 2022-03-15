@@ -41,9 +41,9 @@ class PluginManager():
         plugin_data = json.load(plugin_file)["plugins"]
 
         for plugin_file in plugin_data:
-            print(f"plugin {plugin_file} loading")
+            # print(f"plugin {plugin_file} loading")
             plugin = import_module(plugin_file)
             plugin.register(self)
         for entry_point in pkg_resources.iter_entry_points('excal_plugins'):
-            print(f"plugin {entry_point.name} loading")
+            # print(f"plugin {entry_point.name} loading")
             entry_point.load()(self)

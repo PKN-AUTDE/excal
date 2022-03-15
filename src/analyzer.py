@@ -42,7 +42,7 @@ class Analyzer:
 
     def analyze(self, file_name: str, printAst: bool) -> None:
         in_path = self.find_file(file_name)
-        print(f"Parsing {file_name}")
+        # print(f"Parsing {file_name}")
         walker = CWalker(in_path, self.clang_args())
         self.ast = walker.walk()
 
