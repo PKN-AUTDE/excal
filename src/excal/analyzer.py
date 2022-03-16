@@ -1,11 +1,11 @@
 from pathlib import Path
 from typing import List
 
-from astNode import AstNode
-from cwalker import CWalker
-from visitor import CXXAstNodeVisitor
-from pluginManager import PluginManager
-from output import Output
+from excal.astNode import AstNode
+from excal.cwalker import CWalker
+from excal.visitor import CXXAstNodeVisitor
+from excal.pluginManager import PluginManager
+from excal.output import Output
 
 
 class Analyzer:

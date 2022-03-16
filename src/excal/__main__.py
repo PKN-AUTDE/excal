@@ -3,11 +3,11 @@ import os
 import glob
 from typing import List
 import configparser
-
 from argparse import ArgumentParser
-from analyzer import Analyzer
-from pluginManager import PluginManager
-from output import Output
+
+from excal.analyzer import Analyzer
+from excal.pluginManager import PluginManager
+from excal.output import Output
 
 
 def readConfig(args):

@@ -1,11 +1,10 @@
 from typing import Callable, Dict, List
 from typing import Generator
 from typing import Tuple
-
-from astNode import AstNode
-from pluginManager import PluginManager
-
 from clang.cindex import CursorKind
+
+from excal.astNode import AstNode
+from excal.pluginManager import PluginManager
 
 
 class CXXAstNodeVisitor():

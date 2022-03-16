@@ -2,8 +2,9 @@ from typing import Callable, Dict, List
 import pathlib
 import json
 import importlib
-import visitor
 import pkg_resources
+
+from excal import visitor
 
 
 class ModuleInterface:
@@ -37,13 +38,16 @@ class PluginManager():
         return retList
 
     def loadPlugins(self):
-        plugin_file = open(f"{pathlib.Path(__file__).resolve().parent.parent}/plugins.json")
-        plugin_data = json.load(plugin_file)["plugins"]
+        try:
+            plugin_file = open(f"{pathlib.Path(__file__).resolve().parent.parent.parent}/plugins.json")
+            plugin_data = json.load(plugin_file)["plugins"]
+            for plugin_file in plugin_data:
+                # print(f"plugin {plugin_file} loading")
+                plugin = import_module(plugin_file)
+                plugin.register(self)
+        except Exception:
+            pass
 
-        for plugin_file in plugin_data:
-            # print(f"plugin {plugin_file} loading")
-            plugin = import_module(plugin_file)
-            plugin.register(self)
         for entry_point in pkg_resources.iter_entry_points('excal_plugins'):
             # print(f"plugin {entry_point.name} loading")
             entry_point.load()(self)

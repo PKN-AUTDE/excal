@@ -1,7 +1,8 @@
 from pathlib import Path
 from typing import List
 from clang.cindex import Index as CIndex, Cursor, TranslationUnit
-from astNode import AstNode
+
+from excal.astNode import AstNode
 
 
 class CWalker:
