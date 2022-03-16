@@ -9,6 +9,8 @@ from excal.output import Output
 
 
 class Analyzer:
+    """Analyzer Class, will prepare analysis, call clang to create the AST, translate the AST to astNodes, and call the
+    visitor class to get all linter results."""
     def __init__(self, include_dirs: List[str], clang_args: List[str], pm: PluginManager, out: Output) -> None:
         self.include_dirs: List[Path] = [Path(p) for p in include_dirs]
         # Check for additional includes in args

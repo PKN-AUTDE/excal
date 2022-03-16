@@ -4,6 +4,7 @@ from typing import Tuple
 
 
 class Output():
+    """Output class. Will be extended by more output options."""
     def __init__(self):
         self.exeptions: List[Tuple[str, int, int, str]] = []
         return

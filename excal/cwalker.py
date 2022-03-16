@@ -6,6 +6,7 @@ from excal.astNode import AstNode
 
 
 class CWalker:
+    """Create AST and translate it to astNodes"""
     def __init__(self, c_file: Path, clang_args: List[str]) -> None:
         self.anonymous_counter = 0
         self.path: Path = c_file

@@ -8,6 +8,7 @@ from excal.pluginManager import PluginManager
 
 
 class CXXAstNodeVisitor():
+    """This class will run through the AST, and call all Plugins on each node, they wish to be called at."""
     def __init__(self, ast, pm: PluginManager):
         self.ast = ast
         self.visitors: List[NodeVisitor] = pm.getPluginList()
@@ -33,6 +34,7 @@ class CXXAstNodeVisitor():
 
 
 class NodeVisitor():
+    """Visitor class. Plugins will inherit from it."""
     def __init__(self):
         self._jumpTable: Dict[CursorKind, Callable[[], None]] = {}
         self._jumpTable[CursorKind.TRANSLATION_UNIT] = self.visit_translation_unit

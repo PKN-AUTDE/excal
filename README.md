@@ -6,6 +6,8 @@ The focus of this project is to provide a tool for the implementation of custom 
 
 ## Installation
 
+In order to use excal you need to have [clang](http://clang.org/) installed on your system.
+
 This tool is available on PyPI so you can install it via pip:
 
 ```

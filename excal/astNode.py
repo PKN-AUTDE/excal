@@ -10,6 +10,7 @@ class Location():
 
 
 class AstNode():
+    """Basic data structure containing AST information."""
     def __init__(self, kind: CursorKind, filename: str, line: int, col: int,
                  value: str, indet_level: int, val_type: str, parent: "AstNode") -> None:
         self.kind: CursorKind = kind

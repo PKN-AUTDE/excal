@@ -21,6 +21,7 @@ def import_module(name: str) -> ModuleInterface:
 
 
 class PluginManager():
+    """Class to find, register and load Plugins."""
     def __init__(self):
         self.plugins: Dict[str, "visitor.NodeVisitor"] = {}
 
