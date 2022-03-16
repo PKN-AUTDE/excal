@@ -101,7 +101,7 @@ A list of all supported options:
 
 
 ### Config files
-If a single directory is given as input, excal will scan said directory for a setup.cfg file. Here some project parameters may be provided. At the moment only the options given in belows example are being used, additional ones will be added.
+If a single directory is given as input, excal will scan its root for a setup.cfg file. Here some project parameters may be provided. At the moment only the options given in belows example are being used, additional ones will be added.
 
 ```
 [EXCAL]
