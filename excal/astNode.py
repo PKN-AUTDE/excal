@@ -11,10 +11,12 @@ class Location():
 
 class AstNode():
     """Basic data structure containing AST information."""
-    def __init__(self, kind: CursorKind, filename: str, line: int, col: int,
-                 value: str, indet_level: int, val_type: str, parent: "AstNode") -> None:
+    def __init__(self, kind: CursorKind, filename: str, line: int, col: int, end_line: int,
+                 end_col: int, value: str, indet_level: int, val_type: str,
+                 parent: "AstNode") -> None:
         self.kind: CursorKind = kind
         self.location: Location = Location(filename, line, col)
+        self.end_location: Location = Location(filename, end_line, end_col)
         self.value: str = value
         self.parent: "AstNode" = parent
         self.children: "List[AstNode]" = []
@@ -26,7 +28,8 @@ class AstNode():
 
     def __str__(self):
         out = "  " * self.indent_level
-        out += str(self.location.line) + ":" + str(self.location.col) + "  " + \
+        out += str(self.location.line) + ":" + str(self.location.col) + "-" + \
+            str(self.end_location.line) + ":" + str(self.end_location.col) + "  " + \
             str(self.kind) + " " + self.value + ": " + self.type
         return out
 

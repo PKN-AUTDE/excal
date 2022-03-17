@@ -26,13 +26,16 @@ class CWalker:
                 continue
             ast_child = AstNode(child_node.kind, child_node.location.file.name,
                                 child_node.location.line, child_node.location.column,
+                                node.extent.end.line, node.extent.end.column,
                                 str(child_node.spelling), ast.indent_level + 1,
                                 str(child_node.type.spelling), ast)
+
+
             ast.add_child(ast_child)
             self.walkRec(child_node, indent, ast_child)
 
     def walk(self) -> AstNode:
-        self.ast = AstNode(self.root_node.kind, "", 0, 0,
-                           str(self.root_node.spelling), 0, "", None)
+        self.ast = AstNode(self.root_node.kind, "", 0, 0, self.root_node.extent.end.line, self.root_node.extent.end.column, str(self.root_node.spelling), 0, "", None)
         self.walkRec(self.root_node, '', self.ast)
         return self.ast
+
