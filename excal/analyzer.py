@@ -37,12 +37,14 @@ class Analyzer:
         result.extend([f"-I{inc}" for inc in self.include_dirs])
         return result
 
-    def printAstRec(self, node: AstNode):
+    def printAstRec(self, node: AstNode, printState: int):
         print(node)
+        if printState == 2:
+            node.printTokens()
         for child in node.children:
-            self.printAstRec(child)
+            self.printAstRec(child, printState)
 
-    def analyze(self, file_name: str, printAst: bool) -> None:
+    def analyze(self, file_name: str, printAst: int) -> None:
         in_path = self.find_file(file_name)
         # print(f"Parsing {file_name}")
         walker = CWalker(in_path, self.clang_args())
@@ -51,6 +53,5 @@ class Analyzer:
         visitor = CXXAstNodeVisitor(self.ast, self.pm)
         visitor.visit()
         self.out.addExeptioins(visitor.getExceptions())
-
-        if printAst:
-            self.printAstRec(self.ast)
+        if printAst > 0:
+            self.printAstRec(self.ast, printAst)

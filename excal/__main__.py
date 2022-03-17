@@ -61,6 +61,8 @@ def main() -> None:
                         help="forces files to be analyzed as C++ files.")
     parser.add_argument("--extensions", "-ext", nargs="+", required=False,
                         default=[], help="file extensions to parse.")
+    parser.add_argument("--print-token-tree", "-ptt", nargs='?', required=False,
+                        const=True, default=False, help="print AST plus corresponding Tokens")
 
     args = parser.parse_args()
 
@@ -103,8 +105,14 @@ def main() -> None:
     out: Output = Output()
     analyzer = Analyzer(args.include, clang_args, pm, out)
 
+    printState = 0
+    if(args.print_tree):
+        printState = 1
+    if(args.print_token_tree):
+        printState = 2
+
     for in_file in analyze_files:
-        analyzer.analyze(in_file, args.print_tree)
+        analyzer.analyze(in_file, printState)
 
     out.printError()
 

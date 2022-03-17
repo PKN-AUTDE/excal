@@ -87,6 +87,12 @@ A list of all supported options:
 
 
 <tr>
+<td class="org-left">-ptt</td>
+<td class="org-left">-</td>
+<td class="org-left">Same as above, but will also Print all Tokens under their corresponding AST Nodes. (will produce long output)</td>
+</tr>
+
+<tr>
 <td class="org-left">-cpp</td>
 <td class="org-left">-</td>
 <td class="org-left">Libclang will analyze files based on their extension. If the extension is not cpp specific (eg. .h instead .hpp) this flag will force all files to be analyzed as c++ code.</td>
