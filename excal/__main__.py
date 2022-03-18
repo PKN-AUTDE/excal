@@ -39,6 +39,11 @@ def readConfig(args):
             args.exclude_files.extend(
                 [f'{path}{line.strip()}'
                  for line in cfg[key].split('\n') if line != ''])
+        # files überschreiben das directory. Wenn dieses auch gescannt werden soll, muss es auch eingefügt werden.
+        if key == "parse_files":
+            args.files = [f'{path}{line.strip()}'
+                 for line in cfg[key].split('\n') if line != '']
+
     return args
 
 
