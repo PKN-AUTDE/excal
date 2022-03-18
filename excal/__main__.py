@@ -78,10 +78,11 @@ def main() -> None:
     if args.force_cpp:
         clang_args.extend(['-x', 'c++'])
 
+    FILE_EXTENSIONS: List[str] = []
     if args.extensions != []:
         FILE_EXTENSIONS = args.extensions
     else:
-        FILE_EXTENSIONS: List[str] = ["c", "h", "cpp", "hpp"]
+        FILE_EXTENSIONS = ["c", "h", "cpp", "hpp"]
 
     exfiles = set()
     for ex_file in args.exclude_files:
