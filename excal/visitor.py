@@ -1,10 +1,10 @@
 from typing import Callable, Dict, List
 from typing import Generator
-from typing import Tuple
 from clang.cindex import CursorKind
 
 from excal.astNode import AstNode
 from excal.pluginManager import PluginManager
+from excal.offence import Offence
 
 
 class CXXAstNodeVisitor():
@@ -12,7 +12,7 @@ class CXXAstNodeVisitor():
     def __init__(self, ast, pm: PluginManager):
         self.ast = ast
         self.visitors: List[NodeVisitor] = pm.getPluginList()
-        self.exceptions: List[Tuple[str, int, int, str]] = []
+        self.exceptions: List[Offence] = []
 
     def visitRec(self, node: AstNode) -> None:
         for visitor in self.visitors:
@@ -29,14 +29,14 @@ class CXXAstNodeVisitor():
             if exepts is not None:
                 self.exceptions.extend([e for e in exepts])
 
-    def getExceptions(self) -> List[Tuple[str, int, int, str]]:
+    def getExceptions(self) -> List[Offence]:
         return self.exceptions
 
 
 class NodeVisitor():
     """Visitor class. Plugins will inherit from it."""
     def __init__(self):
-        self._jumpTable: Dict[CursorKind, Callable[[], None]] = {}
+        self._jumpTable: Dict[CursorKind, Callable[AstNode, Generator[Offence, None, None]]] = {}
         self._jumpTable[CursorKind.TRANSLATION_UNIT] = self.visit_translation_unit
         self._jumpTable[CursorKind.UNEXPOSED_DECL] = self.visit_unexposed_decl
         self._jumpTable[CursorKind.STRUCT_DECL] = self.visit_struct_decl
@@ -246,7 +246,7 @@ class NodeVisitor():
         self._jumpTable[CursorKind.FRIEND_DECL] = self.visit_friend_decl
         self._jumpTable[CursorKind.OVERLOAD_CANDIDATE] = self.visit_overload_candidate
 
-    def visit(self, node: AstNode) -> Generator[Tuple[str, int, int, str], None, None]:
+    def visit(self, node: AstNode) -> Generator[Offence, None, None]:
         if node.kind in self._jumpTable:
             return self._jumpTable[node.kind](node)
         else:

@@ -25,7 +25,7 @@ class PluginManager():
     def __init__(self):
         self.plugins: Dict[str, "visitor.NodeVisitor"] = {}
 
-    def register(self, plugin_name: str, plugin_init_fun: Callable[[], "NodeVisitor"]) -> None:
+    def register(self, plugin_name: str, plugin_init_fun: Callable[[], "visitor.NodeVisitor"]) -> None:
         try:
             plugin: "visitor.NodeVisitor" = plugin_init_fun()
             self.plugins[plugin_name] = plugin
@@ -50,5 +50,5 @@ class PluginManager():
             pass
 
         for entry_point in pkg_resources.iter_entry_points('excal_plugins'):
-            # print(f"plugin {entry_point.name} loading")
+            print(f"plugin {entry_point.name} loading")
             entry_point.load()(self)
