@@ -50,5 +50,5 @@ class PluginManager():
             pass
 
         for entry_point in pkg_resources.iter_entry_points('excal_plugins'):
-            print(f"plugin {entry_point.name} loading")
+            # print(f"plugin {entry_point.name} loading")
             entry_point.load()(self)
