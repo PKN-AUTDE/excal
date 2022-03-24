@@ -68,6 +68,8 @@ def main() -> None:
                         default=[], help="file extensions to parse.")
     parser.add_argument("--print-token-tree", "-ptt", nargs='?', required=False,
                         const=True, default=False, help="print AST plus corresponding Tokens")
+    parser.add_argument("--output-style", "-out", choices=['stdErr', 'json'], required=False,
+                        default='stdErr', help="file extensions to parse.")
 
     args = parser.parse_args()
 
@@ -97,7 +99,7 @@ def main() -> None:
         else:
             exfiles.add(ex_file)
 
-    analyze_files = []
+    analyze_files: List[str] = []
     for in_file in args.files:
         if os.path.isdir(in_file):
             for ext in FILE_EXTENSIONS:
@@ -120,7 +122,10 @@ def main() -> None:
     for in_file in analyze_files:
         analyzer.analyze(in_file, printState)
 
-    out.printError()
+    if args.output_style == 'stdErr':
+        out.printError()
+    if args.output_style == "json":
+        out.printJson()
 
 
 if __name__ == "__main__":

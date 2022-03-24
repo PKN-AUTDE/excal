@@ -1,4 +1,5 @@
 import sys
+import json
 from typing import List
 from excal.offence import Offence
 
@@ -16,3 +17,14 @@ class Output():
         for e in self.exeptions:
             print(f'{e.file}: {e.start_location.line}:{e.start_location.col} : {e.id} {e.message}', file=sys.stderr)
 
+    def printJson(self):
+        out = json.loads('{"issues":[]}')
+        for o in self.exeptions:
+            a = o.__dict__
+            a["start_location"] = o.start_location.__dict__
+            a["end_location"] = o.end_location.__dict__
+            a["severity"] = o.severity.name
+            a["type"] = o.type.name
+            out["issues"].append(a)
+
+        print(json.dumps(out, indent=2))
