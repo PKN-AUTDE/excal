@@ -1,5 +1,7 @@
 # EXCAL - Extendable Clang AST based Linter.
 
+## WARNING: This project is still in an early stage. Currently working Plugins may not be supported in future versions.
+
 This is a simple project implementing a C/C++ linter based on the clang AST. The main porpoise is to create a tool which is easily extendable via plugins.
 
 The focus of this project is to provide a tool for the implementation of custom C/C++ coding guidelines. There are no rules provided by the linter itself, rather a toolset to implement your own. (see Plugins)
