@@ -1,5 +1,6 @@
 """EXCAL - Extendable Clang AST based Linter."""
 import os
+from pathlib import Path
 import glob
 from typing import List
 import configparser
@@ -10,21 +11,41 @@ from excal.pluginManager import PluginManager
 from excal.output import Output
 
 
+def findConfig(path: str, find_config: bool) -> str:
+
+    if os.path.exists(f"{path}setup.cfg"):
+        return path
+    if not find_config:
+        return ""
+
+    walkPath = Path(path)
+    # parent function will return previous path if no parent exists so this checks if root node exists.
+    while walkPath.parent != path:
+        walkPath = walkPath.parent
+        if os.path.exists(f"{str(walkPath)}/setup.cfg"):
+            return str(walkPath) + "/"
+    return ""
+
+
 def readConfig(args):
     if len(args.files) != 1:
         return args
 
     path: str = args.files[0]
 
-    if not os.path.isdir(path):
+    if not os.path.isdir(path) and not args.find_config:
         return args
     if not path.endswith('/') and not path.endswith('\\'):
         path += '/'
-    if not os.path.exists(f"{path}setup.cfg"):
+    if not os.path.exists(f"{path}setup.cfg") and not args.find_config:
         return args
 
     config = configparser.ConfigParser()
-    config.read(f"{path}setup.cfg")
+    configPath = findConfig(path, args.find_config)
+    if configPath == "":
+        return args
+
+    config.read(f"{configPath}setup.cfg")
 
     if 'EXCAL' not in config.sections():
         return args
@@ -35,12 +56,12 @@ def readConfig(args):
             args.force_cpp = cfg[key] == 'True'
         if key == "includes":
             args.include.extend([l.strip() for l in cfg[key].split('\n')])
-        if key == "exclude_files":
+        if key == "exclude_files" and not args.find_config:
             args.exclude_files.extend(
                 [f'{path}{line.strip()}'
                  for line in cfg[key].split('\n') if line != ''])
         # files überschreiben das directory. Wenn dieses auch gescannt werden soll, muss es auch eingefügt werden.
-        if key == "parse_files":
+        if key == "parse_files" and not args.find_config:
             args.files = [f'{path}{line.strip()}'
                           for line in cfg[key].split('\n') if line != '']
 
@@ -70,6 +91,10 @@ def main() -> None:
                         const=True, default=False, help="print AST plus corresponding Tokens")
     parser.add_argument("--output-style", "-out", choices=['stdErr', 'json'], required=False,
                         default='stdErr', help="file extensions to parse.")
+    parser.add_argument("--find-config", "-fcfg", nargs='?', required=False,
+                        const=True, default=False,
+                        help="Will try and find a setup.cfg file in parents directories of input-file. Will ignore\
+                        parse_files and exclude_files options in .cfg file, as it may be used for single files.")
 
     args = parser.parse_args()
 
