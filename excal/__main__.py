@@ -85,6 +85,9 @@ def main() -> None:
     parser.add_argument("--force-cpp", "-cpp", nargs='?', required=False,
                         const=True, default=False,
                         help="forces files to be analyzed as C++ files.")
+    parser.add_argument("--use-chache", "-c", nargs='?', required=False,
+                        const=True, default=False,
+                        help="Will safe AST files in .excal Folder and try to access said files to speedup redundant loading.")
     parser.add_argument("--extensions", "-ext", nargs="+", required=False,
                         default=[], help="file extensions to parse.")
     parser.add_argument("--print-token-tree", "-ptt", nargs='?', required=False,
@@ -98,8 +101,9 @@ def main() -> None:
 
     args = parser.parse_args()
 
+    baseDir = Path(args.files[0]) if os.path.isdir(args.files[0]) else Path(args.files[0]).parent()
     args = readConfig(args)
-
+    print(baseDir)
     clang_args = args.args
 
     if args.argfile is not None:
@@ -136,7 +140,7 @@ def main() -> None:
     pm: PluginManager = PluginManager()
     pm.loadPlugins()
     out: Output = Output()
-    analyzer = Analyzer(args.include, clang_args, pm, out)
+    analyzer = Analyzer(args.include, clang_args, pm, out, args.use_chache, baseDir)
 
     printState = 0
     if(args.print_tree):

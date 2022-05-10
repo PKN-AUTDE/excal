@@ -11,7 +11,7 @@ from excal.output import Output
 class Analyzer:
     """Analyzer Class, will prepare analysis, call clang to create the AST, translate the AST to astNodes, and call the
     visitor class to get all linter results."""
-    def __init__(self, include_dirs: List[str], clang_args: List[str], pm: PluginManager, out: Output) -> None:
+    def __init__(self, include_dirs: List[str], clang_args: List[str], pm: PluginManager, out: Output, cache: bool, baseDir: Path) -> None:
         self.include_dirs: List[Path] = [Path(p) for p in include_dirs]
         # Check for additional includes in args
         arg_includes = [arg[2:] for arg in clang_args if arg.startswith("-I")]
@@ -21,6 +21,8 @@ class Analyzer:
         self.ast: AstNode
         self.pm: PluginManager = pm
         self.out: Output = out
+        self.use_cache: bool = cache
+        self.baseDir: Path = baseDir
 
     def find_file(self, file_name: str) -> Path:
         result = Path(file_name)
@@ -47,7 +49,7 @@ class Analyzer:
     def analyze(self, file_name: str, printAst: int) -> None:
         in_path = self.find_file(file_name)
         # print(f"Parsing {file_name}")
-        walker = CWalker(in_path, self.clang_args())
+        walker = CWalker(in_path, self.clang_args(), self.use_cache, self.baseDir)
         self.ast = walker.walk()
 
         visitor = CXXAstNodeVisitor(self.ast, self.pm)
