@@ -28,7 +28,6 @@ class CWalker:
             file = open(self.path)
             fileC = file.read() + str(self.path)
             hash = hashlib.sha256(fileC.encode())
-            print(hash.hexdigest())
             file.close()
 
             if not os.path.isfile(excalDir / hash.hexdigest()):
