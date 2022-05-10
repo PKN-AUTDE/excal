@@ -103,7 +103,6 @@ def main() -> None:
 
     baseDir = Path(args.files[0]) if os.path.isdir(args.files[0]) else Path(args.files[0]).parent()
     args = readConfig(args)
-    print(baseDir)
     clang_args = args.args
 
     if args.argfile is not None:
