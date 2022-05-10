@@ -92,7 +92,7 @@ def main() -> None:
                         default=[], help="file extensions to parse.")
     parser.add_argument("--print-token-tree", "-ptt", nargs='?', required=False,
                         const=True, default=False, help="print AST plus corresponding Tokens")
-    parser.add_argument("--output-style", "-out", choices=['stdErr', 'json'], required=False,
+    parser.add_argument("--output-style", "-out", choices=['stdErr', 'json', 'sonarqube'], required=False,
                         default='stdErr', help="file extensions to parse.")
     parser.add_argument("--find-config", "-fcfg", nargs='?', required=False,
                         const=True, default=False,
@@ -155,6 +155,8 @@ def main() -> None:
         out.printError()
     if args.output_style == "json":
         out.printJson()
+    if args.output_style == "sonarqube":
+        out.printSonarqube()
 
 
 if __name__ == "__main__":

@@ -28,3 +28,30 @@ class Output():
             out["issues"].append(a)
 
         print(json.dumps(out, indent=2))
+
+    def printSonarqube(self):
+        out = json.loads('{"issues":[]}')
+        for o in self.exeptions:
+            a = {
+                "engineId": "EXCAL",
+                "ruleId": o.id,
+                "severity": "INFO" if o.severity == 0 else o.severity.name,
+                "type": "CODE_SMELL" if o.type == 0 else o.type.name,
+            }
+            a["primaryLocation"] = {
+                "message": o.message,
+                "filePath": o.file
+            }
+            a["primaryLocation"]["textRange"] = {
+                "startLine": o.start_location.line,
+                "endLine": o.end_location.line,
+                "startColumn": o.start_location.col,
+                "endColumn": o.end_location.col
+            }
+
+            a["start_location"] = o.start_location.__dict__
+            a["end_location"] = o.end_location.__dict__
+            a["severity"] = o.severity.name
+            a["type"] = o.type.name
+            out["issues"].append(a)
+        print(json.dumps(out, indent=2))
