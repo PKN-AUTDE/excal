@@ -35,8 +35,8 @@ class Output():
             a = {
                 "engineId": "EXCAL",
                 "ruleId": o.id,
-                "severity": "INFO" if o.severity == 0 else o.severity.name,
-                "type": "CODE_SMELL" if o.type == 0 else o.type.name,
+                "severity": "INFO" if o.severity.name == "CONVENTION" else o.severity.name,
+                "type": "CODE_SMELL" if o.type.name == "CONVENTION" else o.type.name,
             }
             a["primaryLocation"] = {
                 "message": o.message,
@@ -49,9 +49,5 @@ class Output():
                 "endColumn": o.end_location.col
             }
 
-            a["start_location"] = o.start_location.__dict__
-            a["end_location"] = o.end_location.__dict__
-            a["severity"] = o.severity.name
-            a["type"] = o.type.name
             out["issues"].append(a)
         print(json.dumps(out, indent=2))
