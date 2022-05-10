@@ -106,6 +106,13 @@ A list of all supported options:
 <td class="org-left">List of file extensions</td>
 <td class="org-left">If provided only files with the given extensions will be parsed.</td>
 </tr>
+
+
+<tr>
+<td class="org-left">-c</td>
+<td class="org-left">Cache AST files.</td>
+<td class="org-left">AST files will be saved in a .excal directory of the project base. If the file content did not change, they will be reloaded. This will save time when reanalyzing Big projects with only a few files changing or If new rules are added.</td>
+</tr>
 </tbody>
 </table>
 
