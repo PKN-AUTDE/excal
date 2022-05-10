@@ -45,8 +45,8 @@ class Output():
             a["primaryLocation"]["textRange"] = {
                 "startLine": o.start_location.line,
                 "endLine": o.end_location.line,
-                "startColumn": o.start_location.col,
-                "endColumn": o.end_location.col
+                "startColumn": o.start_location.col - 1,
+                "endColumn": o.end_location.col - 1
             }
 
             out["issues"].append(a)
